@@ -1,0 +1,39 @@
+#=============================================================================
+# 
+# Config file for cs-infra-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_sc=1200	
+	# Check the System Controller every 20 minutes
+
+INT_apache=1200
+	# Check apache every 20 minutes
+
+INT_dns=3600
+	# Check DNS every hour
+
+INT_monitor=1200
+	# Check other monitors are running, every 20 minutes
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+export APACHE_ZONES="cs-infra-01z-www"
+
+export DNS_ZONES="cs-infra-01z-dns-i cs-infra-01z-dns-e"
+
+DNS_Q_LIST="cs-infra-01z-dns-i@cs-fs-01.ngfl.gov.uk,10.10.7.22:cs-infra-01z-dns-e@dav.ngfl.gov.uk,193.63.51.20"
+
+export MON_HOSTS="cs-infra-02"

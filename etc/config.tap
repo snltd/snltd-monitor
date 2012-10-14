@@ -1,0 +1,9 @@
+export MYSQL_ZONES="tap-mysql-1 tap-mysql-2"
+export MYSQL_CONN_HOSTS="tap-mysql-1 tap-mysql-2"
+export MYSQL_SYNC_LIST=lb-mysql50@tap-mysql-1,tap-mysql-2
+export APACHE_ZONES=tap-app
+export DNS_ZONES=tap-dns
+export DNS_Q_LIST=tap-dns@tap-mysql-1.localnet,192.168.1.131:192.168.1.1@sun.com,7.5.124.61
+export DAV_S_LIST="dav.ngfl.gov.uk"
+
+REP_load_avg=3

@@ -1,0 +1,57 @@
+#=============================================================================
+# 
+# Config file for cs-dev-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_apache=300	
+	# Check Apache every five minutes
+
+INT_mysql=300
+	# Check MySQL every 5 minutes
+
+INT_cf=360
+	# Check Coldfusion every 6 minutes
+
+INT_ping=600
+	# Ping every couple of minutes
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+export MYSQL_ZONES="cs-dev-01z-mysql50"
+
+export MYSQL_CONN_HOSTS="cs-dev-01z-mysql50"
+
+export PING_HOSTS="cs-backup-01 \
+	cs-backup-02 \
+	cs-build-01 \
+	cs-db-01 \
+	cs-db-02 \
+	cs-fs-01 \
+	cs-infra-01 \
+	cs-infra-02 \
+	cs-w-01 \
+	cs-w-02"
+
+export OMIT_LOMS=" cs-backup-02 "
+
+export PING_LOMS=yes
+
+export CF_ZONES="cs-dev-01z-landsb cs-dev-01z-landsf"
+
+export APACHE_ZONES="cs-dev-01z-landsb \
+	cs-dev-01z-landsf \
+	cs-dev-01z-kpis \
+	cs-dev-01z-saps"

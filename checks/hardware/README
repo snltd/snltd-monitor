@@ -1,0 +1,28 @@
+The scripts in this directory shouldn't be run manually, only through the
+snltd_auditor.sh master script. It sets vital variables.
+
+Here are the guidelines for coding.
+
+Check scripts are named check_<test>, and don't print anything, they just
+exit with a code which tells the master script something. Exit codes are:
+
+ 0 : the test was passed - no fault
+ 1 : the test failed
+ 2 : the test could not be run
+ 3 : the test ran, but results were ambiguous
+
+Software scritps go in the software/ directory, hardware scripts in
+hardware/ and operating system scripts in os/.
+
+Diagnostic scripts are named diag_<test>, and are only executed when the
+corresponding check_ script has returned 1. 
+
+The master script can pick up scripts for specific platforms if they follow
+this naming convention.
+
+  check_<test>.<platform>.sh
+  diag_<test>.platform.sh
+
+where <platform> is the output of uname -i on the machine you have tailored
+the tesst for.
+  

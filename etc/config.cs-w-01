@@ -1,0 +1,34 @@
+#=============================================================================
+# 
+# Config file for cs-w-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_apache=300
+	# Check apache every five minutes.
+
+INT_cf=600
+	# Check Coldfusion every 10 minutes
+
+INT_mysql=1200
+	# Every 20 minutes, make sure we can see the database
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+export APACHE_ZONES=$(zoneadm list | grep -v ^global$)
+
+export CF_ZONES="cs-w-01z-landsb cs-w-01z-landsf"
+
+export MYSQL_CONN_HOSTS="lb-mysql50 lb-mysql41"

@@ -1,0 +1,37 @@
+#=============================================================================
+# 
+# Config file for cs-db-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_sc=1200	
+	# Check the System Controller every 20 minutes
+
+INT_mysql=300
+	# Check MySQL every 5 minutes
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+# MySQL
+
+export MYSQL_ZONES="cs-db-01z-mysql41 cs-db-01z-mysql50"
+	# Local zones running MySQL
+
+export MYSQL_CONN_HOSTS="cs-db-01z-mysql41 cs-db-01z-mysql50"
+	# MySQL servers to connect to
+
+export MYSQL_SYNC_LIST="lb-mysql-41@cs-db-01z-mysql41,cs-db-02z-mysql41:lb-mysql50@cs-db-01z-mysql50,cs-db-02z-mysql50"
+	#  Check the sync of these load-balanced pairs
+

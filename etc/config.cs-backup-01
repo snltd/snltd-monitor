@@ -1,0 +1,49 @@
+#=============================================================================
+# 
+# Config file for cs-backup-01
+#
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_sc=1200	
+	# Check the System Controller every 20 minutes
+
+INT_netbackup=7200
+	# Have a look at Netbackup every couple of hours. (Those checks take a
+	# while.)
+
+OMIT_SCRIPTS="check_zfs_space.sh \
+	check_jukebox.sh \
+	check_swap.sh \
+	check_zpool_space.sh \
+	check_load_avg.sh"
+
+	# The load ramps right up on backups, and we are SUPPOSED to fill the
+	# space/backup dataset (and hence the pool). This machine doesn't have
+	# any swap. (Talk to Nick.)
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+# Netbackup
+
+export NB_CLIENT_LIST="cs-build-01 \
+	cs-db-01 \
+	cs-db-02 \
+	cs-fs-01 \
+	cs-infra-01 \
+	cs-infra-02 \
+	cs-w-01 \
+	cs-w-02"
+

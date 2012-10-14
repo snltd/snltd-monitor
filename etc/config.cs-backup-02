@@ -1,0 +1,27 @@
+#=============================================================================
+# 
+# Config file for cs-backup-02
+#
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_netbackup=7200
+	# Have a look at Netbackup every couple of hours. (Those checks take a
+	# while.)
+
+OMIT_SCRIPTS="check_zfs_space.sh \
+	check_jukebox.sh \
+	check_zpool_space.sh \
+	check_load_avg.sh"
+
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+

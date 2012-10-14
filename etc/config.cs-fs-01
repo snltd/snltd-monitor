@@ -1,0 +1,41 @@
+#=============================================================================
+# 
+# Config file for cs-fs-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_sc=1200	
+	# Check the System Controller every 20 minutes
+
+INT_3510=600
+	# Check the 3510 every ten minutes
+
+INT_apache=300
+	# Check apache every five minutes
+
+INT_dav=1200
+	# Check the webDAV server every 20 minutes
+
+OMIT_SCRIPTS="check_apache_conn.sh"
+	# check_apache_conn won't work to cs-fs-01z-dav
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+export APACHE_ZONES="cs-fs-01z-dav"
+
+export DAV_ZONES="cs-fs-01z-dav"
+
+export DAV_S_LIST="dav.ngfl.gov.uk"
+

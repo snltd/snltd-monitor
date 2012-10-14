@@ -1,0 +1,55 @@
+#=============================================================================
+# 
+# Config file for cs-build-01
+#
+# Intervals, OMIT_SCRIPTS and so on don't need to be exported. Check script
+# config variables do.
+#
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO snltd_monitor.sh
+
+	# Intervals. These are in seconds, and named INT_class where class is a
+	# subdirectory of checks/
+
+INT_sc=1200	
+	# Check the System Controller every 20 minutes
+
+INT_monitor=1200
+	# Check other monitors are running, every 20 minutes
+
+OMIT_SCRIPTS="check_load_avg.sh check_zfs_space.sh check_zpool_space.sh"
+
+#-----------------------------------------------------------------------------
+# VARIABLES WHICH APPLY TO CHECK SCRIPTS
+
+# These should always be exported
+
+export PING_HOSTS="cs-backup-01 \
+		cs-backup-02 \
+		alfred \
+		c-3510-01 \
+        cs-db-01 \
+        cs-db-02 \
+        cs-dev-01 \
+        cs-fs-01 \
+        cs-infra-01 \
+        cs-infra-02 \
+        cs-w-01 \
+        cs-w-02"
+
+export OMIT_LOMS=" cs-backup-02 "
+
+export PING_LOMS=yes
+
+export MON_HOSTS="cs-backup-01 \
+		cs-backup-02 \
+        cs-db-01 \
+        cs-db-02 \
+        cs-dev-01 \
+        cs-fs-01 \
+        cs-infra-01 \
+        cs-infra-02 \
+        cs-w-01 \
+        cs-w-02"
