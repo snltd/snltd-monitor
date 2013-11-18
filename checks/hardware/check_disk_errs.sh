@@ -16,6 +16,8 @@
 #
 # v1.1 More verbose reporting on changed disk numbers. RDF 14/04/09
 #
+# v1.2 Suppress format error on KVM virtual disks. RDF 14/11/13
+#
 #=============================================================================
 
 #-----------------------------------------------------------------------------
@@ -33,9 +35,8 @@ EXIT=0
 
 # Get a list of the disk drives on the system
 
-print | pfexec format \
-	| sed -n '/[0-9]\./s/^.*[0-9]\. \([^ ]*\) .*$/\1/p' \
-	| sort \
+print | pfexec format 2>/dev/null \
+	| sed -n '/[0-9]\./s/^.*[0-9]\. \([^ ]*\) .*$/\1/p' | sort \
 	>$TMPFILE 2>/dev/null
 
 if [[ -f $DISK_STATE ]]

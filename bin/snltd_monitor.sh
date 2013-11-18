@@ -324,7 +324,7 @@ handle_return()
 	chk_scr=$1		# Not the full name of the check script. Just the part
 					# between the check_ and the .sh
 	this_exit=$2
-	this_diag=$3    
+	this_diag=$3
 	last_exit_file=$4
 
 	[[ -n $DIAG ]] && print_diag=true
@@ -409,7 +409,7 @@ handle_return()
 	then
 
 		# We send a message if the last exit code was not 1, or if it was 1
-		# but the diagnostic output has changed. 
+		# but the diagnostic output has changed.
 
 		if [[ $last_exit != 1 || ! -f $last_diag || -n $force_notify ]] \
 			|| ! cmp -s $last_diag $this_diag
@@ -422,7 +422,7 @@ handle_return()
 
 	#- Exit code 2. This is an ERROR ---------------------------------------
 
-	else 
+	else
 
 		if [[ $last_exit != 2 || ! -f $last_diag || -n $force_notify ]] \
 			|| ! cmp -s $last_diag $this_diag
@@ -590,9 +590,9 @@ print_diag_info()
 
 	if [[ -z $4 ]]
 	then
-		tput bold
+		tput bold 2>/dev/null
 		print "${2##*/} exited $3"
-		tput sgr0
+		tput sgr0 2>/dev/null
 		print "diagnostic info from $1 follows"
 		print -- "${line_thin}\n"
 	else
