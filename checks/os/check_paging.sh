@@ -1,6 +1,8 @@
+#!/bin/ksh
+
 #=============================================================================
 #
-# check_paging.sh 
+# check_paging.sh
 # ---------------
 #
 # Look to see if there's any anonymous paging on the box.

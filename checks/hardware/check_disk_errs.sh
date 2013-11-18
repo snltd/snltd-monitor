@@ -1,14 +1,16 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_disk_errs.sh
-# ------------------ 
+# ------------------
 #
 # See how many disks are visible to the system. Issue a warning if that
 # number has increased (just to show we're paying attention!) and an error
 # if the number has dropped.
 #
-# Then, look at iostat -E for disks. Flag a warning if we have hard errors >
-# $THRESHOLD. Flag an error if we have transport errors
+# Then, look at iostat -E for disks. Flag a warning if we have soft errors >
+# $S_LIMIT. Flag an error if we have hard errors
 #
 # R Fisher 01/2009
 #
@@ -23,11 +25,10 @@
 #-----------------------------------------------------------------------------
 # VARIABLES
 
-THRESHOLD=20
-	# The number of hard errors over which we flag a warning
+S_LIMIT=${S_ERR_LMT:-20}
+	# The number of soft errors over which we flag a warning
 
 DISK_STATE="${DIR_STATE}/disk_list"
-
 EXIT=0
 
 #-----------------------------------------------------------------------------
@@ -41,6 +42,10 @@ print | pfexec format 2>/dev/null \
 
 if [[ -f $DISK_STATE ]]
 then
+
+    # Cat these into wc so we don't get leading whitespace that makes
+    # the output look ugly.
+
 	ODC=$(cat $DISK_STATE | wc -l)
 	NDC=$(cat $TMPFILE | wc -l)
 
@@ -97,11 +102,11 @@ do
 		EXIT=2
 	# Don't decrease the exit status if it's already been set to 2
 
-	elif [[ $soft -gt $THRESHOLD ]] && [[ $EXIT -lt 2 ]]
+	elif [[ $soft -gt $S_LIMIT ]] && [[ $EXIT -lt 2 ]]
 	then
 		EXIT=1
 	fi
-	
+
 done
 
 # Replace the old disk list with the new one

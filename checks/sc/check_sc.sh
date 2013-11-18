@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_sc.sh
@@ -20,17 +22,19 @@
 
 SCADM="$RUN_WRAP scadm"
 
+SUBNET=${LOM_SUBNET:-10.10.8}
+
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
 # We'll assume the SC is working if it can tell us its IP address, and that
 # IP address is pingable
 
-if $RUN_WRAP -t scadm 
+if $RUN_WRAP -t scadm
 then
 	SC_IP=$($SCADM show netsc_ipaddr 2>/dev/null | cut -d\" -f2)
-	
-	if [[ x$SC_IP == x10.10.8.* ]]
+
+	if [[ x$SC_IP == x${SUBNET}.* ]]
 	then
 
 		ping $SC_IP 5 >/dev/null 2>&1 \
@@ -52,7 +56,7 @@ then
 		elif (( $EXIT == 2 ))
 		then
 			print \
-			"Unexpected, or no IP address. [expected 10.10.8.*, got ${SC_IP}]"
+			"Unexpected, or no IP address. [expected $SUBNET.*, got ${SC_IP}]"
 			print "\nQuerying SC:\n"
 			$SCADM show
 		fi

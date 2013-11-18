@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_loopback.sh
@@ -16,6 +18,8 @@
 # v1.2 Check for hidden files also. RDF 03/04/10
 #
 #=============================================================================
+
+. $LIBRARY
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -36,11 +40,10 @@ do
 	[[ $zone == "global" ]] && continue
 
 	# For each LOCAL zone...
-	
+
 	# Check the zone is up. It it's down, the tests will fail
 
-	zoneadm list | egrep -s ^${zone}$ || \
-		continue
+	zoneadm list | egrep -s ^${zone}$ || continue
 
 	# Get a list of all the loopback filesystems from zonecfg, and check
 	# each one has something in it. You can do with with ls from the global
@@ -69,7 +72,7 @@ do
 	if [[ -n $EMPTY_DIRS ]]
 	then
 		EXIT=2
-		
+
 		# Diagnostic block. We'll tell the user where the failed filesystems
 		# should be mounted from, for easier diagnosis.
 

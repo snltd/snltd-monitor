@@ -1,8 +1,10 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_prtdiag.sh
 # ================
-# 
+#
 # Report if prtdiag exited non-zero when the main snltd_monitor.sh script
 # ran it.
 #
@@ -28,13 +30,13 @@ then
 	if [[ $E_VAL -gt 0 ]]
 	then
 		print "When it was run by the main 'snltd_monitor.sh' script, prtdiag exited ${E_VAL}."
-		RET=2
+		EXIT=2
 	fi
 
 else
-	RET=4
+	EXIT=4
 fi
 
-exit $RET
+exit $EXIT
 
 

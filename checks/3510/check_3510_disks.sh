@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_3510_disks.sh
@@ -23,8 +25,7 @@ EXIT=0
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-${SCCLI% *} -t sccli \
-    || exit 3
+${SCCLI% *} -t sccli || exit 3
 
 if print "show disks" | $SCCLI >$TMPFILE 2>/dev/null
 then
@@ -33,14 +34,11 @@ then
 	"^Status$|^$|^ONLINE$") ]]
 	then
 		EXIT=2
-
-		[[ -n $RUN_DIAG ]] \
-			&& cat $TMPFILE
-
+		[[ -n $RUN_DIAG ]] && cat $TMPFILE
 	fi
+
 else
 	EXIT=4
-
 fi
 
 exit $EXIT

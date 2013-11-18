@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_zpool.sh
@@ -11,19 +13,19 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-can_has zpool \
-	|| exit 3
+can_has zpool || exit 3
 
-[[ $(zpool list) == "no pools available" ]] \
-	&& exit 3
+[[ $(zpool list) == "no pools available" ]] && exit 3
 
-if zpool status | grep state: | egrep -sv ONLINE 
+if zpool status | grep state: | egrep -sv ONLINE
 then
 	 EXIT=2
 elif zpool status | egrep -s "scrub: resilver in progress"

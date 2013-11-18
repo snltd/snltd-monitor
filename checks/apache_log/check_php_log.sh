@@ -1,7 +1,7 @@
 #=============================================================================
 #
-# check_php_log.sh 
-# ---------------- 
+# check_php_log.sh
+# ----------------
 #
 # Look for errors in the PHP log
 #
@@ -45,7 +45,7 @@ do
 	# Look to see if there's a log file
 
 	F_PATH="$(get_zone_root_dir $zone)/$LOG_PATH"
-	
+
 	if [[ -s $F_PATH ]]
 	then
 
@@ -56,11 +56,11 @@ do
 		if [[ -n $LSIZE ]]
 		then
 			WARNINGS=1
-			
+
 			[[ -n $RUN_DIAG ]] \
 				&& cat<<-EOOUT
 				in zone '$zone':
-				  
+
 				              file size: ${LSIZE}b
 				 size warning threshold: ${WARN_SIZE}b
 				        local zone path: /${LOG_PATH}
@@ -70,12 +70,12 @@ do
 		fi
 
 		# Parse today's block from the log file
-	
+
 		BLOCK=$(log_checker $F_PATH "$DATE_MATCH" "$SEV_MATCH")
 
 		if [[ -n $BLOCK ]]
 		then
-			
+
 			egrep -sv Warning $BLOCK \
 				&& ERRORS=1 \
 				|| WARNINGS=1
@@ -88,21 +88,21 @@ do
 			fi
 
 		fi
-		
+
 	else
 
 		# There isn't. Should there be?. This check works for all apache and
 		# PHP versions. Only 2.1 has httpd -t -D DUMP_MODULES
-	
+
 		if pgrep -z $zone -o httpd >/dev/null \
 			&& pldd $(pgrep -z $zone -o httpd) 2>/dev/null | egrep -s libphp
 		then
 			ERRORS=1
-			
+
 			[[ -n $RUN_DIAG ]] \
 				&& cat<<-EODIAG
 				in zone '$zone':
-				 
+
 				  No PHP log file found.
 
 				Expected paths:

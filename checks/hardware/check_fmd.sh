@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_fmd.sh
@@ -26,6 +28,8 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
@@ -39,13 +43,11 @@ analyze_fmdump()
 
 	print -n "The following errors have been recorded"
 
-	[[ -n $2 ]] \
-		&& print " and cleared"
+	[[ -n $2 ]] && print " and cleared"
 
 	print "by the fault management system."
 
-	[[ -n $2 ]] \
-		&& print "\n\nPlease investigate these faults."
+	[[ -n $2 ]] && print "\n\nPlease investigate these faults."
 
 	while read uuid
 	do
@@ -56,10 +58,9 @@ analyze_fmdump()
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-can_has fmadm \
-	|| exit 3
+can_has fmadm || exit 3
 
-# First, check for corrected faults. Issue warnings on these 
+# First, check for corrected faults. Issue warnings on these
 
 rm -f $TMPFILE
 
@@ -68,10 +69,7 @@ pfexec fmadm faulty -avs | egrep -v ^"TIME|---" | cut -c 17-52 >$TMPFILE
 if [[ -s $TMPFILE ]]
 then
 	EXIT=1
-
-	[[ -n $RUN_DIAG ]] \
-		&& analyze_fmdump $TMPFILE true
-		
+	[[ -n $RUN_DIAG ]] && analyze_fmdump $TMPFILE true
 fi
 
 # now look for things still in the fault log
@@ -81,10 +79,7 @@ pfexec fmadm faulty -vs | egrep -v ^"TIME|---" | cut -c 17-52 >$TMPFILE
 if [[ -s $TMPFILE ]]
 then
 	EXIT=2
-
-	[[ -n $RUN_DIAG ]] \
-		&& analyze_fmdump $TMPFILE
-
+	[[ -n $RUN_DIAG ]] && analyze_fmdump $TMPFILE
 fi
 
 exit $EXIT

@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_3510_enclosure.sh
@@ -5,7 +7,7 @@
 #
 # Get and examine diagnostics  from the 3510. This ought to catch anything
 # physically or electrically wrong with it, including completely failted
-# disks or controllers. 
+# disks or controllers.
 #
 # R Fisher 02/2009
 #
@@ -19,7 +21,6 @@
 # VARIABLES
 
 SCCLI="$RUN_WRAP sccli"
-
 EXIT=0
 
 #-----------------------------------------------------------------------------
@@ -34,10 +35,7 @@ then
 	if egrep -s Fault $TMPFILE
 	then
 		EXIT=2
-
-		[[ -n $RUN_DIAG ]] \
-			&& cat $TMPFILE
-
+		[[ -n $RUN_DIAG ]] && cat $TMPFILE
 	fi
 
 else

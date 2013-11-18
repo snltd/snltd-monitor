@@ -1,8 +1,10 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_diag.sh
 # =============
-# 
+#
 # Just look for "fail"s in the output of prtdiag -v
 #
 # R Fisher 07/2009
@@ -27,13 +29,13 @@ then
 	if egrep -is "failed" $DIAG_CACHE && [[ -n $RUN_DIAG ]]
 	then
 		egrep -i "failed" $DIAG_CACHE
-		RET=2
+		EXIT=2
 	fi
 
 else
-	RET=4
+	EXIT=4
 fi
 
-exit $RET
+exit $EXIT
 
 

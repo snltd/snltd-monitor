@@ -4,7 +4,7 @@
 #
 # check_PSUs.sh
 # -------------
-# 
+#
 # Check all PSUs in the machine are powered up and functioning correctly.
 #
 # R Fisher 01/2009
@@ -24,19 +24,14 @@ then
 
 	if [[ -n $(egrep P_PWR $DIAG_CACHE | egrep -v okay$) ]]
 	then
-		RET=2
-
-		[[ -n $RUN_DIAG ]] && \
-			egrep "P_PWR" $DIAG_CACHE | egrep -v okay$
-
-	else
-		RET=0
+		EXIT=2
+		[[ -n $RUN_DIAG ]] && egrep "P_PWR" $DIAG_CACHE | egrep -v okay$
 	fi
 
 else
-	RET=4
+	EXIT=4
 fi
 
-exit $RET
+exit $EXIT
 
 

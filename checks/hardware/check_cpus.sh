@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_cpus.sh
@@ -22,9 +24,7 @@ EXIT=0
 if [[ -n $(psrinfo | egrep -v on-line) ]]
 then
 	EXIT=2
-	
-	[[ -n $RUN_DIAG ]] && psrinfo 
-
+	[[ -n $RUN_DIAG ]] && psrinfo
 fi
 
 exit $EXIT

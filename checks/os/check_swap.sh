@@ -1,7 +1,9 @@
+#!/bin/ksh
+
 #=============================================================================
 #
-# check_swap.sh 
-# ------------- 
+# check_swap.sh
+# -------------
 #
 # Makes sure we have swap space.
 #
@@ -16,8 +18,8 @@
 #-----------------------------------------------------------------------------
 # VARIABLES
 
-WARN=500000
-ERROR=200000
+WARN=${SWAP_S_LMT:-500000}
+ERROR=${SWAP_H_LMT:-200000}
 	# Thresholds of free swap space, in k
 
 EXIT=0
@@ -49,7 +51,7 @@ then
 
 	   warning threshold: ${WARN}k
 	     error threshold: ${ERROR}k
-	  
+
 	Output of swap -s ${OPT}:
 
 	EODIAG

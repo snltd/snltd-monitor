@@ -3,13 +3,13 @@
 # functions.ksh
 # -------------
 #
-# Functions used by the snltd_monitor.sh script and its check_ functions. 
+# Functions used by the snltd_monitor.sh script and its check_ functions.
 #
 # R Fisher 02/2009
-# 
+#
 # Record changes below
 #
-# v1.0  Initial release. 
+# v1.0  Initial release.
 
 # v1.1  To minimize sourcing of files, this file is now loaded once, by
 #       snltd_monitor.sh, and its functions are made available to the check
@@ -17,11 +17,16 @@
 #       to the typeset line at the end of the script. Functions must be
 #       defined before being exported. RDF 10/03/09
 #
+# v1.2  Rolled back the v1.1 change, because Solaris 11 uses ksh93,
+#       which doesn't allow you to export functions. So now each check
+#       script which needs a method from this file has to load it in.
+#       RDF 17/11/13.
+#
 #=============================================================================
 
-can_has()
+function can_has
 {
-	# simple wrapper to whence, because I got tired of typing >/dev/null 
+	# simple wrapper to whence, because I got tired of typing >/dev/null
 	# $1 is the file to check
 
 	whence $1 >/dev/null \
@@ -29,14 +34,14 @@ can_has()
 		|| return 1
 }
 
-is_global()
+function is_global
 {
 	# Are we running in the global zone? True if we are, false if we're
 	# note. True also if we're on Solaris 9 or something else that doesn't
 	# know about zones. Now caches the value in the IS_GLOBAL variable
-	
+
 	RET=0
-	
+
 	if [[ -n $IS_GLOBAL ]]
 	then
 		RET=$IS_GLOBAL
@@ -44,13 +49,13 @@ is_global()
 		can_has zonename && [[ $(zonename) != global ]] && RET=1
 		IS_GLOBAL=$RET
 	fi
-	
+
 	return $RET
 }
 
-is_root()
+function is_root
 {
-	# Are we running as root? 
+	# Are we running as root?
 
 	[[ $(id) == "uid=0(root)"* ]] && RET=0 || RET=1
 
@@ -58,7 +63,7 @@ is_root()
 }
 
 
-syslog_severity()
+function syslog_severity
 {
 	# Return the severity of a syslog message as a number
 	# $1 is the level as a string
@@ -96,7 +101,7 @@ syslog_severity()
 	print $RET
 }
 
-zone_run()
+function zone_run
 {
     # Run a command in global, or a local, zone
     # $1 is the command -- QUOTE IT IF IT HAS SPACES!
@@ -115,11 +120,11 @@ zone_run()
 
 }
 
-get_zone_root_dir()
+function get_zone_root_dir
 {
 	# Get a zone's root directory.
 	# $1 is the zone to get the root of
-	
+
 	if [[ $1 == "global" ]]
 	then
 		print /
@@ -128,7 +133,7 @@ get_zone_root_dir()
 	fi
 }
 
-is_cron()
+function is_cron
 {
     # Are we being run from cron? True if we are, false if we're not. Value
     # is cached in IS_CRON variable. This works by examining the tty the
@@ -149,23 +154,23 @@ is_cron()
 
 }
 
-get_apache_zones()
+function get_apache_zones
 {
 	# Get a list of zones which probably have Apache running in them
 	# Args are a list of candidate zones
 
-	for zone 
+	for zone
 	do
 
 		[[ -d "$(get_zone_root_dir $zone)/usr/local/apache" ]] \
 			&& z_ret="$z_ret $zone "
-	
+
 	done
-	
+
 	print $z_ret
 }
 
-check_file_size()
+function check_file_size
 {
 	# If a file is over a certain size, print that size. If it's not, don't
 	# print anything.
@@ -186,7 +191,7 @@ check_file_size()
 	print $s_ret
 }
 
-log_checker()
+function log_checker
 {
 	# This function is a generic log checker. It gets new, relevant lines
 	# from a given log file, and writes them to a temporary file. It returns
@@ -198,7 +203,7 @@ log_checker()
 	#    file
 	# $3 is the "severity match", a regex which matches severity strings in
 	#    the log file
-	# $4 is an optional filter 
+	# $4 is an optional filter
 
 	# Depends on global variables:
 	#   DIR_STATE
@@ -233,7 +238,7 @@ log_checker()
 		| egrep "$sev_match" >$TMPFILE
 
 	# We may have no lines in the temp file. That means we've got nothing
-	# more to worry about. 
+	# more to worry about.
 
 	[[ -s $TMPFILE ]] \
 		|| return
@@ -241,8 +246,8 @@ log_checker()
 	# Do we have a last_block? If we don't, then we're pretty much done. We
 	# just have to copy the TMPFILE to the last_block location, and tell the
 	# main script where it is.
-	
-	if [[ -f $last_block ]] 
+
+	if [[ -f $last_block ]]
 	then
 		# Is the last_block the same as the TMPFILE? If it is, we're done
 
@@ -273,7 +278,7 @@ log_checker()
 
 }
 
-curl_diag()
+function curl_diag
 {
 	# Feed it a curl exit code, and it will print the error to which that
 	# code relates
@@ -282,24 +287,9 @@ curl_diag()
 	$CURL --manual | sed "/EXIT CODES/,/AUTHORS/!d;/^ *$1 /,/^$/!d;/^$/d"
 }
 
-get_epoch_time()
+function get_epoch_time
 {
 	# Print the number of seconds since the epoch
 
 	nawk 'BEGIN { print srand(); }'
 }
-
-typeset -xf \
-	can_has \
-	is_global \
-	is_root \
-	syslog_severity \
-	zone_run \
-	get_zone_root_dir \
-	is_cron \
-	get_apache_zones \
-	check_file_size \
-	log_checker \
-	curl_diag \
-	get_epoch_time 
-

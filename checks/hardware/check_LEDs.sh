@@ -1,8 +1,10 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_LEDs.sh
 # =============
-# 
+#
 # Warn if we have any non-green LEDs. Only works from the global zone.  Any
 # user
 #
@@ -22,14 +24,14 @@ if [[ -n $DIAG_CACHE ]] && [[ -s $DIAG_CACHE ]]
 then
 	sed -n '/Led State/,/^$/p' $DIAG_CACHE | grep -w on >$TMPFILE
 
-	if [[ -z $(cat $TMPFILE) ]]
+	if [[ -s $TMPFILE ]]
 	then
-		RET=4
+		EXIT=4
 	elif [[ -z $(egrep -v " green " $TMPFILE) ]]
 	then
-		RET=0
+		EXIT=0
 	else
-		RET=2
+		EXIT=2
 
 		[[ -n $RUN_DIAG ]] && \
 			sed -n '/Led State/,/^$/p' $DIAG_CACHE | grep -w on \
@@ -37,9 +39,9 @@ then
 	fi
 
 else
-	RET=3
+	EXIT=3
 fi
 
-exit $RET
+exit $EXIT
 
 

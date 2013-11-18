@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_zones.sh
@@ -14,6 +16,8 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
@@ -27,8 +31,7 @@ OLDLIST="${TMPFILE}.2"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-can_has zonename \
-	|| exit 3
+can_has zonename || exit 3
 
 # We store the zone names and their states (running/installed/whatever) in
 # a file, which we diff against the current corresponding list.
@@ -94,5 +97,5 @@ then
 fi
 
 mv $TMPFILE $STATE_FILE
-exit $EXIT
 
+exit $EXIT

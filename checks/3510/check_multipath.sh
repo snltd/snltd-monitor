@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_multipath.sh
@@ -6,7 +8,7 @@
 # Check the multipathing to the 3510
 #
 # Check multipath status. If both paths are up, we should see four remote
-# ports. 
+# ports.
 #
 # Exit 0 if all four ports are found. Exit 2 if any are missing.
 #
@@ -28,14 +30,12 @@
 REQUIRED_PORTS=4
 PERM_FILE="${DIR_PERM}/has_multipath"
 FCINFO="$RUN_WRAP fcinfo"
-
 EXIT=0
 
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-${FCINFO% *} -t fcinfo \
-	|| exit 3
+${FCINFO% *} -t fcinfo || exit 3
 
 # If the file server mysteriously lost both ports, this script might think
 # it's not supposed to have any HBAs, and not report an error. To get round
@@ -45,19 +45,16 @@ ${FCINFO% *} -t fcinfo \
 
 if [[ $($FCINFO hba-port ) == "No Adapters Found." ]]
 then
-	
+
 	# There aren't any HBAs. Do we think there should be?
 
 	if [[ -f $PERM_FILE ]]
 	then
 		EXIT=1
 
-		[[ -n $RUN_DIAG ]] \
-			&& print "  No HBAs found."
+		[[ -n $RUN_DIAG ]] && print "  No HBAs found."
 
-	else
-		# Doesn't look like we expect to find any adapters.
-
+	else # Doesn't look like we expect to find any adapters.
 		EXIT=3
 	fi
 

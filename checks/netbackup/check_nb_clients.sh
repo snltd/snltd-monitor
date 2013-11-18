@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_netbackup_clients.sh
@@ -34,15 +36,15 @@ then
 		if ping $host 1 >/dev/null 2>&1
 		then
 			$TESTCMD -host $host  >/dev/null 2>&1
-			RET=$?
+			TEST_RET=$?
 
-			if [[ $RET != 0 ]]
+			if [[ $TEST_RET != 0 ]]
 			then
 				ERRORS=1
 
 				[[ -n $RUN_DIAG ]] \
 					&& print \
-					"Could not connect to '${host}'. bptestbpcd exited ${RET}."
+					"Could not connect to '${host}'. bptestbpcd exited ${TEST_RET}."
 
 			fi
 

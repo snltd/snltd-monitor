@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_ufs_space.sh
@@ -17,13 +19,13 @@
 typeset -L15 mnt dev
 	# For formatting
 
-SOFT=80	# % full that will cause a warning
-HARD=90 # % full that will cause an error
+SOFT=${UFS_S_LMT:-80}	# % full that will cause a warning
+HARD=${UFS_H_LMT:-90}   # % full that will cause an error
 
 # Counters for the times we hit the limits. Hard limits are "errors", soft
 # limits are "warnings"
 
-ERRS=0 
+ERRS=0
 WARN=0
 EXIT=0
 

@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_remote_mon.sh
@@ -43,8 +45,7 @@ SSH_TIMEOUT=10
 if [[ -n $MON_HOSTS ]]
 then
 
-	[[ -x $SSH ]] \
-		|| exit 4
+	[[ -x $SSH ]] || exit 4
 
 	TIME_NOW=$(get_epoch_time)
 
@@ -57,7 +58,7 @@ then
 			-o "StrictHostKeyChecking=no" \
 			-o "ConnectTimeout=$SSH_TIMEOUT" \
 			$host \
-			"pgrep -f snltd_monitor/bin/snltd_monitor_daemon.sh" 
+			"pgrep -f snltd_monitor/bin/snltd_monitor_daemon.sh"
 		)
 
 		RET_C=$?
@@ -83,8 +84,8 @@ then
 			if [[ -n $RUN_DIAG ]]
 			then
 				cat<<-EODIAG
-				
-				pgrep on '$host' returned ${RET_C}. 
+
+				pgrep on '$host' returned ${RET_C}.
 
 				Command output follows, no output suggests no monitor daemon is
 				running.
@@ -140,20 +141,20 @@ then
 					then
 						cat<<-EODIAG
 
-						On host '$host': 
+						On host '$host':
 
-						   time since monitor completed (s): $DELTA_T 
+						   time since monitor completed (s): $DELTA_T
 
-						               Warning thresold (s): $LAST_THRESHOLD 
+						               Warning thresold (s): $LAST_THRESHOLD
 
 						EODIAG
 					fi
 
 				fi
-			
+
 			fi
 
-			
+
 		fi
 
 

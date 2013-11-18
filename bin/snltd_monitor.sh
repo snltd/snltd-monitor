@@ -368,7 +368,7 @@ handle_return()
 			force_notify=1
 			mail_extra="Test failed on $rep_trigger consecutive occasions.
 			"
-			rm $fail_c_file
+			[[ -f $fail_c_file ]] && rm $fail_c_file
 		else
 			print $((fail_c_count + 1)) >$fail_c_file
 			be_quiet=1
@@ -710,7 +710,7 @@ BASE=$(qualify_path "${0%/*}/..")
 # We have a library of common functions which is available to this script
 # and to all the check_ and diag_ scripts which it spawns.
 
-LIBRARY="${BASE}/lib/functions.ksh"
+export LIBRARY="${BASE}/lib/functions.ksh"
 
 [[ -f $LIBRARY ]] || die "ERROR:can't find library [$LIBRARY]" 1
 
@@ -945,8 +945,15 @@ do
         # start writing proper event handling in this script, so we just
         # write the exit code for a hardware check script to access.
 
-        timeout_job "prtdiag -v" >$DIAG_CACHE
-        DIAG_CODE=$?
+        if [[ $(uname -p) == "SUNW,Sun-Fire-T200" ]]
+        then
+            timeout_job "prtdiag -v" >$DIAG_CACHE
+            DIAG_CODE=$?
+        else
+            prtdiag -v >$DIAG_CACHE
+            DIAG_CODE=$?
+        fi
+
         print $DIAG_CODE >${DIR_EXIT}/main_prtdiag.exit
 	fi
 

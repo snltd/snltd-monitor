@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_hosts.sh
@@ -31,7 +33,7 @@ then
 		if [[ $RESPONSE == "no answer"* ]]
 		then
 			ERRORS=1
-		
+
 			[[ -n $RUN_DIAG ]] \
 				&& print "  host '$host' not responding to ping."
 

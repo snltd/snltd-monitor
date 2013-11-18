@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_zfs_space.sh
@@ -18,13 +20,13 @@
 #-----------------------------------------------------------------------------
 # VARIABLES
 
-SOFT=80	# % full that will cause a warning
-HARD=90 # % full that will cause an error
+SOFT=${ZFS_S_LMT:-80}	# % full that will cause a warning
+HARD=${ZFS_H_LMT:-90}   # % full that will cause an error
 
 # Counters for the times we hit the limits. Hard limits are "errors", soft
 # limits are "warnings"
 
-ERRS=0 
+ERRS=0
 WARN=0
 EXIT=0
 

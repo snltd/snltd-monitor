@@ -1,16 +1,20 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_metadevices.sh
 # --------------------
 #
-# Returns 1 if anything's in a state other than Okay. Only works from
-# the global zone. Any user.
+# Errors or warns if anything's in a state other than Okay. Only works
+# from the global zone. Any user.
 #
 # R Fisher 01/2009
 #
 # v1.0 Initial Relase
 #
 #=============================================================================
+
+. $LIBRARY
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -30,7 +34,7 @@ then
 		EXIT=2
 	elif metastat | egrep -s Resyncing
 	then
-		EXIT=1 
+		EXIT=1
 	else
 		EXIT=0
 	fi

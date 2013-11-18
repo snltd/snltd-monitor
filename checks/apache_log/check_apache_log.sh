@@ -1,7 +1,7 @@
 #=============================================================================
 #
 # check_apache_log.sh
-# ------------------- 
+# -------------------
 #
 # Look for stuff in Apache error logs.
 #
@@ -65,11 +65,11 @@ do
 
 	if [[ ! -d $DIR_Z_LOG ]]
 	then
-		
+
 		if pgrep -z $zone -o httpd >/dev/null 2>&1
 		then
 			ERRORS=1
-			
+
 			[[ -n $RUN_DIAG ]] && \
 			cat <<-EOERR
 			in zone '$zone':
@@ -88,7 +88,7 @@ do
 	fi
 
 	FOUND=1
-	
+
 	# Look for logs with "error" in their name which are less than 24 hours
 	# old. We rotate logs every day, and we never want to look at ones from
 	# before yesterday.
@@ -96,7 +96,7 @@ do
 	find $DIR_Z_LOG -type f -a -mtime -1 -a -name \*error\* $EXTRA_FIND | \
 	while read lfile
 	do
-		
+
 		# Has the log file changed since last time we ran?
 
 		if [[ ! -f $LAST_CHECK ]] || [[ $lfile -nt $LAST_CHECK ]]
@@ -111,7 +111,7 @@ do
 			then
 				WARNINGS=1
 				LOOP_ERR=1
-		
+
 				[[ -n $RUN_DIAG ]] \
 					&& cat<<-EOOUT
 					Oversized log file in zone '$zone':
@@ -119,7 +119,7 @@ do
 					  size threshold: ${WARN_SIZE}b
 					     global path: $lfile
 					      local path: $LZPATH
-				
+
 				EOOUT
 			fi
 
@@ -131,11 +131,11 @@ do
 
 			if [[ -n $BLOCK ]]
 			then
-	
+
 				egrep -sv '[warn]' $BLOCK \
 					&& ERRORS=1 \
 					|| WARNINGS=1
-			
+
 				if [[ -n $RUN_DIAG ]]
 				then
 					print "in zone '$zone'\nlogfile:$LZPATH"

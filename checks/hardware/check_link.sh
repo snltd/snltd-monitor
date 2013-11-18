@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_link.sh
@@ -7,10 +9,10 @@
 # ports. We've had some oddities with autoneg and changing speeds on the
 # 10.10.4 network, so I thought it would be a good idea to monitor it.
 #
-# Now requires the followin in /etc/security/exec_attr
+# Now requires the following in /etc/security/exec_attr
 #
 # snltd Monitor:solaris:cmd:::/sbin/dladm:privs=sys_net_config,net_rawaccess
-# 
+#
 # R Fisher 02/2009
 #
 # v1.0 Initial Release
@@ -18,6 +20,8 @@
 # v1.1 Uses pfexec and RBAC. RDF 23/03/09
 #
 #=============================================================================
+
+. $LIBRARY
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -29,8 +33,7 @@ STATE_FILE="${DIR_STATE}/dladm.state"
 
 # We need dladm for this
 
-can_has dladm \
-	|| exit 4
+can_has dladm || exit 4
 
 # dladm keeps changing. Do we need to use show-ether or show-dev?
 
@@ -48,10 +51,10 @@ pfexec dladm $DLARG >$TMPFILE
 if [[ -f $STATE_FILE ]]
 then
 
-	if ! cmp -s $STATE_FILE $TMPFILE 
+	if ! cmp -s $STATE_FILE $TMPFILE
 	then
 		EXIT=2
-	
+
 		if [[ -n $RUN_DIAG ]]
 		then
 			print "previous datalink information:\n"

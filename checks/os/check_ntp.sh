@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_ntp.sh
@@ -11,21 +13,22 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-# This is an easy one. Just do an "ntp assoc" and make sure we have two
-# reachables.  Error if not.
+# This is an easy one. Just do an "ntp assoc" and make sure we have at
+# least two peers.  Error if not.
 
-if [[ $(ntpq -c assoc 2>/dev/null | grep -w reachable | wc -l) -lt 2 ]]
+if [[ $(/usr/sbin/ntpq -c as 2>/dev/null | grep -wc sys_peer) -lt 2 ]]
 then
 	EXIT=2
 
-	[[ -n $RUN_DIAG ]] \
-		&& ntpq -c assoc 2>&1
+	[[ -n $RUN_DIAG ]] && /usr/sbin/ntpq -c as 2>&1
 fi
 
 exit $EXIT

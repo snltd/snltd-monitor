@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_reboot.sh
@@ -9,10 +11,12 @@
 #
 # v1.0 Initial Release
 #
-# v1.1 Changed to use new "permanent" state directroy, and smarter reporting
+# v1.1 Changed to use new "permanent" state directory, and smarter reporting
 #      of global zone. RDF 24/02/09
 #
 #=============================================================================
+
+. $LIBRARY
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -52,7 +56,7 @@ do
 		fi
 
 	fi
-	
+
 	mv $TMPFILE $STATE_FILE
 done
 

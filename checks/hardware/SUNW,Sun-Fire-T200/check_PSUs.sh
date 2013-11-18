@@ -4,15 +4,13 @@
 #
 # check_PSUs.sh
 # -------------
-# 
+#
 # Check all PSUs in the machine are powered up and functioning correctly.
 # Specific to T2000 platforms.
 #
 # v1.0 Initial Relase
 #
 #=============================================================================
-
-#[[ -s $LIBRARY ]] && . $LIBRARY || exit 254
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -32,7 +30,7 @@ then
 	fi
 
 else
-	RET=3
+	EXIT=3
 fi
 
 exit $EXIT

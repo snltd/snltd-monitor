@@ -1,7 +1,9 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_nb_logs.sh
-# ---------------
+# ----------------
 #
 # Examines the output of bpdbjobs to see if anything has failed.
 #
@@ -45,7 +47,7 @@ then
 				($9 > val && $4 > 0) {
 					print $1
 				}' \
-		| while read id 
+		| while read id
 	do
 		((FAILS += 1))
 		FAILLIST="$FAILLIST,$id"

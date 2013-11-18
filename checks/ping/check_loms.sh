@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_loms.sh
@@ -29,7 +31,7 @@ then
 
 	for host in $PING_HOSTS
 	do
-		
+
 		[[ $OMIT_LOMS == *" $host "* ]] \
 			&& continue
 
@@ -43,7 +45,7 @@ then
 		if [[ $RESPONSE == "no answer"* ]]
 		then
 			ERRORS=1
-		
+
 			[[ -n $RUN_DIAG ]] \
 				&& print "  LOM '$host' not responding to ping."
 

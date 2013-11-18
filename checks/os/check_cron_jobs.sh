@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_cron_jobs.sh
@@ -11,7 +13,10 @@
 #
 # v1.1 Fairly substantial change. Now remembers the last line it looked at,
 #      and examines the whole log from that point.
+#
 #=============================================================================
+
+. $LIBRARY
 
 #-----------------------------------------------------------------------------
 # VARIABLES
@@ -24,7 +29,7 @@ EXIT=10
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-for zone in global #$ZONE_LIST
+for zone in global $ZONE_LIST
 do
 	F_PATH="$(get_zone_root_dir $zone)/$LOGFILE"
 
@@ -89,7 +94,7 @@ do
 
 		# Get anything in TMPFILE that isn't in LAST_BLOCK, assuming that
 		# exists
-		
+
 		if [[ -f $LAST_BLOCK ]]
 		then
 			TFILE2="${TMPFILE}$$"
@@ -107,7 +112,7 @@ do
 		# failed" on an additional, fourth, log line. On any error, set the
 		# exit value to 1
 
-		if egrep -s "rc=[0-9]*$|^exec" $TMPFILE 
+		if egrep -s "rc=[0-9]*$|^exec" $TMPFILE
 		then
 			LOOP_ERR=1
 			ERRORS=1
@@ -121,16 +126,16 @@ do
 
 			# It's quite tricky to pull chunks out of the cron log. The
 			# format is as follows:
-			
+
 			# CMD: command
 			# >  the time (+some other info) the job began
 			# <  the time (+some other info) the job ended. Ends rc=x if x > 0
 			# Possibly an exec failed line
-			
+
 			# I tried loads of clever sedding, thought I had a good
 			# solution, but then found out that the output from jobs can be
 			# interleaved, so you can't just pull consecutive lines out.
-			
+
 			# You have to go on the PID. So, let's get a list of failed
 			# PIDs, then pull out chunks relating to them. Also get part of
 			# the date string, because PIDs get recycled. Using fields 3-6
@@ -153,7 +158,7 @@ do
 				sed -n -e "/^> .* $MATCH /{x;1!p;g;p;D;}" -e h $TMPFILE
 				print "$line\n"
 			done
-			
+
 			# We may have the dreaded "exec failed" lines too. Do a similar
 			# trick for those. First get all the "exec failed" lines, and
 			# the preceeding line for each

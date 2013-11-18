@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_nfs_mounts.sh
@@ -13,6 +15,8 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
@@ -23,7 +27,7 @@ for zone in $ZONE_LIST
 do
 	ZROOT=$(get_zone_root_dir $zone)
 
-	awk '{ if ($1 ~ /^[a-z].*:/)  print $1,$3 }' ${ZROOT}/etc/vfstab | \
+	/bin/awk '{ if ($1 ~ /^[a-z].*:/)  print $1,$3 }' ${ZROOT}/etc/vfstab | \
 	while read fs mpt
 	do
 
@@ -38,16 +42,16 @@ do
 
 			# Does df think the filesystem is mounted? We have to do this
 			# from the zone
-	
+
 			if [[ -n $RUN_DIAG ]] \
 			then
 
-				if ! zone_run "df -k $mpt" $zone >/dev/null 2>&1
+				if ! zone_run "/bin/df -k $mpt" $zone >/dev/null 2>&1
 				then
 					print "'$mpt' is not mounted [$fs]\n"
 				else
 					print \
-					"O/S thinks '$mpt' is mounted, but no files are visible"
+					"OS thinks '$mpt' is mounted, but no files are visible"
 				fi
 
 			fi

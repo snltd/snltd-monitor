@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_apache_proc.sh
@@ -28,8 +30,7 @@ PROC_MAX=75
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-	|| exit 3
+is_global || exit 3
 
 # The list of zones to study can be defined in the server config file.
 # If one isn't given, we look at all zones and find ones with an Apache
@@ -39,8 +40,7 @@ ZONES=${APACHE_ZONES:=$(get_apache_zones $ZONE_LIST)}
 
 # Exit if there are no zones to study
 
-[[ -n $ZONES ]] \
-	|| exit 3
+[[ -n $ZONES ]] || exit 3
 
 for zone in $ZONES
 do
@@ -89,4 +89,3 @@ else
 fi
 
 exit $EXIT
-

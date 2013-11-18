@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_syslog.sh
@@ -13,13 +15,15 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
 DATE_MATCH=$(date "+%b %e")
 	# Syslog lines begin with a date in this format
 
-SEV_MATCH="emerg\]|alert\]|crit\]|err\]|warning\]" 
+SEV_MATCH="emerg\]|alert\]|crit\]|err\]|warning\]"
 	# Another regex. We only care about log files with these lines
 
 LOGFILE="var/log/syslog"
@@ -46,16 +50,16 @@ do
 			egrep -sv "warning]" $BLOCK \
 				&& ERRORS=1 \
 				|| WARNINGS=1
-		
+
 			if [[ -n $RUN_DIAG ]]
 			then
 				print "in zone '$zone':"
 				cat $BLOCK
 				print
 			fi
-	
+
 		fi
-	
+
 	else
 
 		[[ -n $RUN_DIAG ]] && \

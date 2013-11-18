@@ -1,6 +1,7 @@
 # This configuration file applies to all servers. Values in it can be
 # overridden by using a machine-specific configuration.
 
+
 # REP_ variables are used to tell snltd_monitor.sh to only send a
 # warning/error message after 'n' consecutive errors. Their names follow the
 # form REP_script, with any suffix removed from the script name. Scripts

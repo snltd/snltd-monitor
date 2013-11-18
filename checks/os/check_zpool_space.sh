@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_zfs_space.sh
@@ -12,11 +14,13 @@
 #
 #=============================================================================
 
+. $LIBRARY
+
 #-----------------------------------------------------------------------------
 # VARIABLES
 
-WARN=80
-ERROR=90
+WARN=${ZPOOL_S_LMT:-75}
+ERROR=${ZPOOL_H_LMT:-80}
 
 EXIT=0
 
@@ -56,10 +60,7 @@ then
 		zpool list -Honame,capacity | while read pool use
 		do
 			PCU=${use%%%}
-
-			[[ $PCU -gt $WARN ]] \
-				&& print "  pool '$pool' at $use capacity."
-
+			[[ $PCU -gt $WARN ]] && print "  pool '$pool' at $use capacity."
 		done
 
 	fi

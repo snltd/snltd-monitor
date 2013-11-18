@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_3510_redundancy.sh
@@ -20,16 +22,13 @@ DEF_MODE="Active-Active"
 	# The redundancy mode we expect to find
 
 DEF_STAT="Enabled"
-
 SCCLI="$RUN_WRAP sccli"
-
 EXIT=0
 
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-${SCCLI% *} -t sccli \
-    || exit 3
+${SCCLI% *} -t sccli || exit 3
 
 # Query the 3510 once, and cache the info in a temp file
 
