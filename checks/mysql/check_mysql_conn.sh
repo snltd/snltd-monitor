@@ -11,7 +11,7 @@
 # Requirements
 
 # mysql> create database snltd_monitor;
-# mysql> grant select on snltd_monitor.* to 'snltd_monitor'@'%' 
+# mysql> grant select on snltd_monitor.* to 'snltd_monitor'@'%'
 #        identified by 'l3-Wd.xx9';
 # mysql> use snltd_monitor;
 # mysql> create table check_table ( pkey int, value varchar(10) );
@@ -37,18 +37,15 @@ CONN_FILE="${DIR_CONFIG}/mysql_connect"
 # The list of zones to study can be defined in the server config file.
 # If one isn't given, we exit
 
-[[ -n $MYSQL_CONN_HOSTS ]] \
-	|| exit 3
+[[ -n $MYSQL_CONN_HOSTS ]] || exit 3
 
 # We need a MySQL binary
 
-can_has mysql \
-	|| exit 3
+can_has mysql || exit 3
 
 # And a config file
 
-[[ -f $CONN_FILE ]] \
-	|| exit 4
+[[ -f $CONN_FILE ]]G|| exit 4
 
 for host in $MYSQL_CONN_HOSTS
 do

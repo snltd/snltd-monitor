@@ -10,7 +10,7 @@
 # v1.0 Initial Release
 #
 # v1.2 Original check for "mysqld" caught mysqldump too. Now a bit cleverer.
-# 
+#
 # v1.3 Ditto, but I think I got it right this time. RDF 02/03/09.
 #
 #=============================================================================
@@ -23,15 +23,14 @@
 
 MYSQL_ZONES=${MYSQL_ZONES:=$ZONE_LIST}
 
-MYSQL_DATA_DIR="/data/mysql"
+MYSQL_DATA_DIR=${MYSQL_DATA_DIR:=data/mysql}
 	# Local site convention is to keep MySQL data in /data/mysql. If we
 	# examine a zone and it doesn't have that directory, we skip it
 
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-	|| exit 3
+is_global || exit 3
 
 for zone in $MYSQL_ZONES
 do
@@ -81,9 +80,9 @@ do
 				        data directory : $MYSQL_DATA_DIR
 				       'mysqld' process: $PRT_D
 				  'mysqld_safe' process: $PRT_SAFE_D
-				  
-				Output of 
-				
+
+				Output of
+
 				  'pgrep -fl -z $zone mysqld'
 
 				follows. This should show a mysqld and a mysqld_safe process.

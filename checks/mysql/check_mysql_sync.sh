@@ -25,7 +25,7 @@
 TMPFILE_1="${TMPFILE}${RANDOM}_1"
 TMPFILE_2="${TMPFILE}${RANDOM}_2"
 
-THRESHOLD=5000
+THRESHOLD=${MYSQL_SYNC_DIFF:-5000}
 	# The difference in log positions we consider "safe"
 
 CONN_FILE="${DIR_CONFIG}/mysql_connect"
@@ -64,16 +64,13 @@ get_key()
 # The list of zones to study can be defined in the server config file.
 # If one isn't given, we exit
 
-[[ -n $MYSQL_SYNC_LIST ]] \
-	|| exit 3
+[[ -n $MYSQL_SYNC_LIST ]] || exit 3
 
 # We need a MySQL binary
 
-can_has mysql \
-	|| exit 3
+can_has mysql || exit 3
 
-[[ -f $CONN_FILE ]] \
-	|| exit 4
+[[ -f $CONN_FILE ]] || exit 4
 
 # Parse the sync list
 
@@ -140,7 +137,7 @@ do
 			WARNINGS=1
 			LOOP_DIAG=3
 		fi
-	
+
 	fi
 
 	if [[ -n $RUN_DIAG && -n $LOOP_DIAG ]]
@@ -149,7 +146,7 @@ do
 		# Fill in some descriptive text for the positions
 
 		cat<<-EOOUT
-		
+
 		On MySQL cluster '$lb_name':
 
 		   slave IO running on ${node_1}: ${sir1:-unknown}
@@ -163,13 +160,13 @@ do
 
 		     slave log file on ${node_1}: ${slf1:-unknown}
 		    master log file on ${node_2}: ${mlf2:-unknown}
-		  
+
 		     master log pos on ${node_1}: ${mlp1:-unknown}
 		      slave log pos on ${node_2}: ${slp2:-unknown} [$diff1 difference]
 
 		      slave log pos on ${node_1}: ${slp1:-unknown}
 		     master log pos on ${node_2}: ${mlp2:-unknown} [$diff2 difference]
-		  
+
 		  acceptable difference in log positions is ${THRESHOLD}.
 
 		           loop diag is $LOOP_DIAG
