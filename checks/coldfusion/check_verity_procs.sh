@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_verity_procs.sh
@@ -24,8 +26,7 @@ DIR_CF="/usr/local/coldfusion"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-	|| exit 3
+is_global || exit 3
 
 for zone in $V_ZONES
 do
@@ -38,8 +39,7 @@ do
 	then
 		# Do we think there should be Verity running here?
 
-		[[ -d $DIR_CF ]] \
-			|| continue
+		[[ -d $DIR_CF ]] || continue
 
 		# Any missing (or extra) processes means we flag an error
 
@@ -50,11 +50,11 @@ do
 			In zone '$zone':
 
 			Expected at least two verity processes, but found ${PROCS}.
-			
-			Output of 
+
+			Output of
 
 			  pgrep -fl -z $zone ${DIR_CF}/verity
-			
+
 			follows:
 
 			  ---------- BEGIN OUTPUT ------------

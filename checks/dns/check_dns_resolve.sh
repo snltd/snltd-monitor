@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_dns_resolve.sh
@@ -27,28 +29,23 @@
 
 # We need a dig binary
 
-can_has dig \
-	|| exit 3
+can_has dig || exit 3
 
 # We need a DNS_Q_LIST
 
-[[ -n $DNS_Q_LIST ]] \
-	|| exit 3
+[[ -n $DNS_Q_LIST ]] || exit 3
 
 # Parse the DNS_SRV list
 
-for entry in $(print $DNS_Q_LIST | tr ":" " ")
+for entry in $DNS_Q_LIST
 do
-	server=${entry%@*}
-	question=${entry#*@}
-	question=${question%,*}
-	expected=${entry#*,}
+	server=${entry%%:*}
+	question=${entry#*:}
+	question=${question%=*}
+	expected=${entry#*=}
 
-	answer=$(dig \
-		+time=1 \
-		+short \
-		$question \
-		@$server 2>&1)
+	answer=$(dig +time=1 +short $question @$server 2>/dev/null \
+        | tr "\n" "," | sed "s/,$//")
 
 	if [[ "$answer" == "$expected" ]]
 	then

@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_apache_dav_proc.sh
@@ -23,8 +25,7 @@ PROC_MAX=10
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global && [[ -n $DAV_ZONES ]] \
-	|| exit 3
+is_global && [[ -n $DAV_ZONES ]] || exit 3
 
 for zone in $DAV_ZONES
 do
@@ -37,17 +38,13 @@ do
 
 	if (( $HCNT < $PROC_MIN || $HCNT > $PROC_MAX ))
 	then
+		[[ $HCNT == 0 ]] && ERRORS=1 || WARNINGS=1
 
-		[[ $HCNT == 0 ]] \
-			&& ERRORS=1 \
-			|| WARNINGS=1
-
-		[[ -n $RUN_DIAG ]] \
-			&& cat<<-EOOUT
+		[[ -n $RUN_DIAG ]] && cat<<-EOOUT
 In zone '$zone':
 
 Expected between $PROC_MIN and $PROC_MAX httpd processes, but found ${HCNT}.
-			
+
 			EOOUT
 
 	fi

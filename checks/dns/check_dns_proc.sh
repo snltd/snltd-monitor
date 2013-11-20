@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_dns_proc.sh
@@ -26,8 +28,7 @@ DNS_DATA_DIR="/var/named"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-	|| exit 3
+is_global || exit 3
 
 for zone in $DNS_ZONES
 do
@@ -38,9 +39,9 @@ do
 	then
 		FOUND=1
 
-		# There should be a named process running. 
+		# There should be a named process running.
 
-		if ! pgrep -z $zone ^named$ >/dev/null 2>/dev/null 
+		if ! pgrep -z $zone ^named$ >/dev/null 2>/dev/null
 		then
 			# Any missing processes in zones with a DNS_DATA_DIR means we
 			# flag an error
@@ -52,11 +53,11 @@ do
 				In zone '$zone':
 
 				Found BIND data directory $DNS_DATA_DIR, but did not find a
-				'named' process. Output of 
-				
+				'named' process. Output of
+
 				  pgrep -fl -z $zone named
 
-				follows. 
+				follows.
 
 				  ------- BEGIN OUTPUT ------
 

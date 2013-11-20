@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_apache_log.sh
@@ -37,8 +39,7 @@ FILTER_MATCH="File does not exist"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-    || exit 3
+is_global || exit 3
 
 # We used to do a big global find to hunt out log files, but I've decided to
 # re-do it by looking at the apache process in each Apache zone. This makes
@@ -47,15 +48,13 @@ is_global \
 # Previously we found error logs older than a marker file. We still use that
 # marker file, just in a different way.
 
-[[ -f $LAST_CHECK ]] \
-	&& EXTRA_FIND="-a -newer $LAST_CHECK"
+[[ -f $LAST_CHECK ]] && EXTRA_FIND="-a -newer $LAST_CHECK"
 
 # For each zone, we look for an apache log directory, then look for all
 # "*error*" files in it that are newer than the marker.
 
 for zone in $APACHE_ZONES
 do
-
 	ZROOT=$(get_zone_root_dir $zone)
 	DIR_Z_LOG="${ZROOT}/$DIR_LOG"
 

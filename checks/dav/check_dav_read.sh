@@ -1,12 +1,14 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_dav_read.sh
 # -----------------
 #
 # Checks we can download a file from webDAV.
-# 
+#
 # Requires curl and that DAV_S_LIST is a whitespace separated list of
-# servers to connect to. 
+# servers to connect to.
 #
 # Requires that target Apache configurations allow the connection, and that
 # the file is there. How to set up the DAV server is in the wiki.
@@ -27,8 +29,7 @@ TARGET="${DIR_STATE}/dav_testfile"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-can_has curl && [[ -n $DAV_S_LIST ]] \
-	|| exit 3
+can_has curl && [[ -n $DAV_S_LIST ]] || exit 3
 
 for server in $DAV_S_LIST
 do
@@ -40,8 +41,7 @@ do
 	# properly fail if it can't get the file - without it, you get exit 0
 	# and the web server's output in the $TARGET file.
 
-	curl \
-		--fail \
+	curl --fail \
 		--connect-timeout 4 \
 		--max-time 5 \
 		--silent \
@@ -59,7 +59,7 @@ do
 		[[ -n $RUN_DIAG ]] \
 			&& cat <<-EOERR
 			Failed to transfer test file over webDAV.
-			
+
 			     server: $server
 			        url: $URL
 			  curl exit: $CURL_RET
@@ -69,7 +69,7 @@ do
 
 			$(curl_diag $CURL_RET)
 
-			ls of target file follows:			 
+			ls of target file follows:
 			$(ls -l $TARGET 2>&1)
 
 			EOERR

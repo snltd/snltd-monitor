@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_cf_proc.sh
@@ -24,8 +26,7 @@ DIR_CF="/usr/local/coldfusion"
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-is_global \
-	|| exit 3
+is_global || exit 3
 
 for zone in $CF_ZONES
 do
@@ -38,8 +39,7 @@ do
 	then
 		# Do we think there should be Coldfusion running here?
 
-		[[ -d $DIR_CF ]] \
-			|| continue
+		[[ -d $DIR_CF ]] || continue
 
 		# Any missing (or extra) processes means we flag an error
 
@@ -50,11 +50,11 @@ do
 			In zone '$zone':
 
 			Expected two bin/coldfusion processes, but found ${PROCS}.
-			
-			Output of 
+
+			Output of
 
 			  pgrep -fl -z $zone bin/coldfusion
-			
+
 			follows:
 
 			  ---------- BEGIN OUTPUT ------------
@@ -82,4 +82,3 @@ else
 fi
 
 exit $EXIT
-

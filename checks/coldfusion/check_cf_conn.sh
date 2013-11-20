@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_cf_conn.sh
@@ -6,7 +8,7 @@
 # Checks it can connect to Coldfusion.  Requires a very basic ColdFusion
 # page called "snltd_monitor.sh" is in the document root of the default
 # vhost.
-# 
+#
 # Requires curl, and that CF_ZONES is a whitespace separated list of servers
 # to connect to.
 #
@@ -36,11 +38,9 @@ EXIT=0
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
-can_has curl \
-	|| exit 3
+can_has curl || exit 3
 
-[[ -n $CF_ZONES ]] \
-	|| exit 3
+[[ -n $CF_ZONES ]] || exit 3
 
 for zone in $CF_ZONES
 do
@@ -63,8 +63,8 @@ do
 
 		[[ -n $RUN_DIAG ]] \
 			&& cat<<-EOOUT
-		
-			Failed to successfully retrieve '${REM_FILE}' from 
+
+			Failed to successfully retrieve '${REM_FILE}' from
 
 				$URL
 
@@ -82,7 +82,7 @@ do
 
 			---- END RETRIEVED FILE ----
 			EOOUT
-	
+
 	fi
 
 done
@@ -91,7 +91,7 @@ if [[ -n $ERRORS ]]
 then
 	EXIT=2
 elif [[ -n $FOUND ]]
-then	
+then
 	EXIT=0
 else
 	EXIT=3

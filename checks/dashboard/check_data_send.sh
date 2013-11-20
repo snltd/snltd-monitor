@@ -1,3 +1,5 @@
+#!/bin/ksh
+
 #=============================================================================
 #
 # check_data_send.sh
@@ -10,7 +12,7 @@
 #
 # Requires (Open)SSH binary which understands ConnectTimeout. Requires
 # monitor user's id_dsa.pub is in the remote user's authorized_keys.
-# 
+#
 # R Fisher 03/2009
 #
 # v1.0 Initial Release
@@ -22,11 +24,8 @@
 
 SSH="${DIR_BIN}/ssh"
 
-DASH_USER="audit@cs-infra-01z-www"
-	# user@server -- who we connect as, and where we connect to
-
 DASH_DIR="/var/snltd/monitor/$HOSTNAME"
-	# Remote directory in which to write files 
+	# Remote directory in which to write files
 
 EXIT=0
 
@@ -54,6 +53,8 @@ function copy_data
 #-----------------------------------------------------------------------------
 # SCRIPT STARTS HERE
 
+[[ -z $DASH_CONNECTOR ]] && exit 3
+
 if [[ -x $SSH ]]
 then
 
@@ -61,10 +62,10 @@ then
 
 	if ! copy_data
 	then
-		
+
 		# If it's failed, it could be because there's no target directory.
 		# Try to make that, and if we succeed, try again
-		
+
 		if $SSH \
 				-q \
 				-o "BatchMode=yes" \
@@ -72,7 +73,7 @@ then
 				-o "ConnectTimeout=2" \
 			$DASH_USER "mkdir -p $DASH_DIR" >/dev/null
 		then
-			
+
 			if ! copy_data
 			then
 
@@ -81,23 +82,19 @@ then
 
 				EXIT=2
 			fi
-			
+
 		else
-			
+
 			[[ -n $RUN_DIAG ]] && print \
 				"Unable to create target directory as ${DASH_USER}. Exit $?"
 
 			EXIT=2
 		fi
 	fi
-	
+
 else
 	EXIT=2
-
-	[[ -n $RUN_DIAG ]] \
-		&& print "No SSH binary [${SSH}]"
-
+	[[ -n $RUN_DIAG ]] && print "No SSH binary [${SSH}]"
 fi
 
 exit $EXIT
-
