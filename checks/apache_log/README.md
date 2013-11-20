@@ -1,5 +1,7 @@
 # Apache Log Checks
 
+I don't think I used these checks in the end. They're not very good.
+
 ## `check_apache_log.sh`
 
 Looks in any local zone named in the `APACHE_ZONES` variable for a

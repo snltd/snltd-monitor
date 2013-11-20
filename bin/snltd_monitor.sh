@@ -737,6 +737,8 @@ RUN_WRAP="pfexec ${BASE}/bin/mon_exec_wrapper.sh"
 	# commands. Prefixed with pfexec, because it can only be run through the
 	# "snltd Monitor" profile.
 
+[[ -x ${RUN_WRAP##* } ]] || die "could not execute ${RUN_WRAP## }"
+
 DIR_BIN=${BASE}/bin/$ISA_TYPE
 	# Where to find support binaries (dig, mysql client etc.). Add this to
 	# the PATH
