@@ -1,0 +1,2 @@
+Some sample machine configurations from the environment this software
+was built for. Should provide easy templates for your own systems.
