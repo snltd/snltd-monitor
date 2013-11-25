@@ -7,13 +7,13 @@
 #
 # This script is run by SMF. It triggers the snltd_monitor.sh at regular
 # intervals. It's just a simple wrapper. It does no monitoring or reporting
-# itself. 
+# itself.
 #
 # Before running snltd_monitor.sh, this script checks that script is not
 # already running. If it is, no action is taken, but the script remembers.
 # If three starts in a row fail, then we assume snltd_monitor.sh is hung,
 # and kill it.
-# 
+#
 # It's very lightweight. The only external it calls is 'cat', and it
 # only does that if you ask for usage information.
 #
@@ -109,12 +109,12 @@ INT_os=300
 INT_dashboard=1200
 	# Update the dashboard every 20 minutes
 
-TICK=60	
+TICK=60
 	# Time, in seconds, the main ticker() loop sleeps for. After this
 	# interval it wakes up and sees if anything should be run. This should
 	# be the largest possible common divisor of all the INT_ variables
 
-LAP=0			
+LAP=0
 	# "total" elapsed time. I reset this every time we run all checks
 	# simultaneously, because I'm not entirely sure I trust ksh with very
 	# high numbers
@@ -143,7 +143,7 @@ log()
 
 qualify_path()
 {
-	# Make a path fully qualified, if it isn't already. Can't go in the 
+	# Make a path fully qualified, if it isn't already. Can't go in the
 	# functions file, because we need it to FIND the functions file!  $1 is
 	# the path to qualify
 
@@ -160,12 +160,12 @@ ticker()
 {
 	# This is the main loop of the program. It's in a function so it can be
 	# backgrounded in "daemon" mode.
-	
+
 	# Sleep for TICK seconds, look at each test type and see if it needs to
 	# be run. (We do this by looking at the remainder from dividing the
 	# elapsed time by the test type's interval.). Build up a string of test
 	# types to be used as arguments to the snltd_monitor.sh script. If that
-	# string is non-zero, run the tests. 
+	# string is non-zero, run the tests.
 
 	# Note that ALL tests get run when this script is first run. That's a
 	# conscious design decision.
@@ -208,7 +208,7 @@ ticker()
 			do
 				interval=${CHECK_INT_LIST[$i]}
 				((i = $i + 1))
-	
+
 				(( ($LAP % $interval) == 0 )) && MON_ARGS="$MON_ARGS $class"
 			done
 
@@ -245,7 +245,7 @@ ticker()
 
 			if is_running "/bin/ksh $MON_SCR"
 			then
-				
+
 				# If the monitor's running, we'll ignore it $RETRIES times,
 				# and just not trigger it again. After that, we assume a
 				# problem and try to kill it.
@@ -256,18 +256,18 @@ ticker()
 					log "$MON_SCR already running. Blocked count is $BLOCKED"
 				else
 					# We'll try to kill the monitor nicely. If it doesn't
-					# die, we'll -9 it. 
+					# die, we'll -9 it.
 
 					log "killing $MON_SCR [-15]"
 					pkill -z global $MON_SCR notice
-					sleep 1 
+					sleep 1
 
 					if is_running "/bin/ksh $MON_SCR"
 					then
 						log "killing $MON_SCR [-9]"
 						pkill -9 -z global $MON_SCR notice
 						sleep 1
-				
+
 						# If the process is still running at this point,
 						# exit.
 
@@ -303,7 +303,7 @@ usage()
 	cat<<-EOUSAGE
 
 	usage:
-	  ${0##*/} [-Drn] 
+	  ${0##*/} [-Drn]
 
 	  ${0##*/} -V
 
@@ -311,7 +311,7 @@ usage()
 	   -D, --daemon         run as a daemon
 	   -n, --noflush        don't flush the monitor's state data
 	   -r, --repair         tell monitor script to try to repair faults
-	   -v, --verbose		be verbose
+	   -v, --verbose        be verbose
 	   -V, --version        print the version and exit
 
 	EOUSAGE
@@ -324,7 +324,7 @@ is_running()
 	# Function to see if a given string is in the process table, in the
 	# current zone
 
-	pgrep -z $(zonename) "$1" >/dev/null 
+	pgrep -z $(zonename) "$1" >/dev/null
 }
 
 #-----------------------------------------------------------------------------
@@ -418,7 +418,7 @@ do
 		CHECK_CLASS_LIST[$i]=$class
 		CHECK_INT_LIST[$i]=$VALID_INT
 		((i = $i + 1))
-		
+
 		# If we've been asked to be verbose, say what we're going to do.
 		# This is primarily for my benefit while I'm testing it.
 

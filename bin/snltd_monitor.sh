@@ -167,8 +167,7 @@ uname -nip | read HOSTNAME ISA_TYPE ARCH
 	# Saves us running multiple times. uname doesn't print things in the
 	# order you specify the options
 
-MAILTO="slackboy@gmail.com"
-#MAILTO="sysadmin@ngfl.gov.uk"
+MAILTO="admin@domain.com"
 	# Mailto list. Space separated
 
 RUN_TIME_THRESHOLD=180
